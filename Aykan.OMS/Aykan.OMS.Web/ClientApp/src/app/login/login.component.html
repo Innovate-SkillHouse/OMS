@@ -1,0 +1,37 @@
+<div class="white-bg-login">
+  <div class="container">
+    <div class="login-wrapper white-bg">
+      <div class="formContent">
+        <!-- Tabs Titles -->
+        <!-- Icon -->
+        <div class="login-bg">
+          <h3 class="logo-text"><b>Order Management System</b></h3>
+        </div>
+        <div class="login-box">
+
+          <form class="login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="alert-msg" *ngIf="error">
+              <strong style="color: rgb(204, 12, 12);">Invalid username or password</strong>
+            </div>
+            <div class="user-input-wrp">
+              <br />
+              <input type="text" class="inputText" formControlName="username" required />
+              <span class="floating-label">Email / User Name</span>
+            </div>
+            <div class="user-input-wrp mt-2">
+              <br />
+              <input type="password" class="inputText" formControlName="password" required />
+              <span class="floating-label">Password</span>
+            </div>
+            <!--<div class="password-text text-right mt-3">Forgot Password?</div><br><br>-->
+            <button type="submit" class="btn btn-md btn-primary mt-3">Sign In</button>
+          </form>
+
+          <!-- <div>
+            <a [routerLink]="['/registration']"><div type="button" class="btn btn-md btn-primary mt-3">Sign Up</div></a>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

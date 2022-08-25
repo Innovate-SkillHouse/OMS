@@ -1,0 +1,8 @@
+.alert-msg {
+  width: 100%;
+  /* background-color: rgb(158, 91, 91); */
+  background: linear-gradient(rgb(253, 211, 217), rgb(233, 180, 189));
+  border: 1px solid rgb(199, 15, 15);
+  border-radius: 5px;
+  padding: 10px;
+}

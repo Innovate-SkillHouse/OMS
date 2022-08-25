@@ -1,0 +1,52 @@
+<div class="white-bg">
+    <div class="container">
+        <div class="dvdr mb-3"></div>
+
+        <div class="row mb-3 px-3">
+            <a [routerLink]="['/dashboard']"><img src="assets/img/Icon awesome-arrow-left.svg" /></a>
+            <h5 class="dash-text">Shop List</h5>
+        </div><br>
+        <br>
+        <div [hidden]="this.shops?.length?false:true">
+            <div class="table-responsive scroll-y">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Shop Name</th>
+                            <th class="text-right mt-3">Address</th>
+                            <th class="text-right mt-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let shop of this.shops">
+                            <td>
+                                <div>
+                                    {{ shop.name }}
+                                </div>
+                            </td>
+                            <td class="text-right mt-3">
+                                {{ shop.address }}
+                            </td>
+                            <td class="text-right mt-3">
+                                <img (click)="onEditShop(shop.id)" src="assets/img/icon-edit-sm.svg">&nbsp;
+                                <img (click)="onDeleteShop(shop.id)" src="assets/img/delete.svg">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                    <!-- extra line at the end of rows -->
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <ng-template [ngIf]="this.shops?.length==0">
+            <div class="view-shop"><br><br><br>
+                <b>NO SHOPS TO DISPLAY </b>
+            </div>
+        </ng-template>
+    </div>
+</div>

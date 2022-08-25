@@ -1,0 +1,159 @@
+#order {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  overflow: auto;
+}
+
+#order td,
+#order th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#order tbody:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#order tbody:hover {
+  background-color: rgb(224, 223, 223);
+}
+
+#order th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4aa881;
+  color: white;
+}
+
+.pagination {
+  float: right;
+}
+
+ul.pagination {
+  display: inline-block;
+  /* padding: 0; */
+  padding-bottom: 4px;
+  padding-top: 4px;
+  margin: 0;
+}
+
+ul.pagination li {
+  display: inline;
+}
+
+ul.pagination li a {
+  color: black;
+  padding: 5px 9px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+ul.pagination li a.active {
+  cursor: pointer;
+  background-color: #307232;
+  color: white;
+}
+
+ul.pagination li a:hover:not(.active) {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.shopname {
+  appearance: none;
+  outline: 0;
+  background: rgb(240, 241, 245);
+  background-image: none;
+  color: black;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 3px;
+  float: right;
+}
+
+.date-select {
+  appearance: none;
+  outline: 0;
+  background: rgb(240, 241, 245);
+  background-image: none;
+  color: black;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 3px;
+  float: left;
+}
+
+#option {
+  background: rgb(183, 241, 183);
+}
+
+.search-id {
+  width: 25%;
+  padding: 0.7%;
+  background-color: rgb(250, 252, 253);
+  border-radius: 7px;
+}
+
+.selected {
+  border-color: #307232;
+  border-width: 2px;
+}
+
+.selectedRow {
+  background-color: rgb(165, 243, 223);
+}
+
+.datepicker {
+  width: 200px;
+  height: 35px;
+  background-color: rgb(240, 241, 245);
+  padding: 0.6%;
+  border-radius: 2px;
+  border-color: midnightblue;
+  border-width: 1px;
+}
+
+.datepicker-btn {
+  width: 20px;
+  height: 35px;
+  border-width: 1px;
+  border-left: none;
+  border-radius: 0%;
+  background-color: whitesmoke;
+  cursor: pointer;
+  color: grey;
+}
+
+.datepicker-btn:focus {
+  outline: 0px;
+}
+
+.order-list {
+  cursor: pointer;
+}
+
+.order-link {
+  text-decoration: underline;
+  color: blue;
+}
+
+.order-link:hover {
+  color: rgb(54, 172, 211);
+}
+
+.selected-row {
+  cursor: pointer;
+}
+
+.datepicker-ip {
+  width: 90%;
+  height: 100%;
+  border: none;
+  background-color: rgb(240, 241, 245);
+}
+
+.datepicker-ip:focus {
+  outline: 0px;
+}

@@ -1,0 +1,151 @@
+<div class="white-bg">
+  <div class="container">
+    <div class="dvdr mb-3"></div>
+    <div class="row mb-3 px-3">
+      <a [routerLink]="['/dashboard']"
+        ><img src="assets/img/Icon awesome-arrow-left.svg"
+      /></a>
+      <h5 class="dash-text">My Cart</h5>
+    </div>
+    <br />
+    <div class="box mt-3" style="border: none">
+      <label class="space-60"><strong>Shop Name :</strong>{{ shopName }}</label>
+      <label class="space-50 text-right"
+        ><strong>Address :</strong>{{ address }}
+      </label>
+    </div>
+    <div class="mainBox mt-3">
+      <div class="space-50 text-left" style="border: none">
+        <label><strong>Comments : </strong></label><br />
+        <textarea
+          required
+          style="
+            width: 250px;
+            height: 80px;
+            background-color: rgb(207, 255, 172);
+          "
+          (input)="onChangeNote($event.target.value)"
+        ></textarea>
+      </div>
+      <div class="space-50"></div>
+    </div>
+    <br />
+    <div
+      class="table-responsive scroll-order-y"
+      *ngIf="this.cartData.length >= 1; else empty"
+      [hidden]="this.cartData.length < 1"
+    >
+      <table class="table carttable">
+        <thead>
+          <tr>
+            <!-- <th>Sl. No</th> -->
+            <th>Item</th>
+            <!-- <th>Unit</th> -->
+            <th class="text-right">Quantity</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let item of this.cartData; let i = index">
+          <tr *ngFor="let product of item.product; let j = index">
+            <!-- <td width="30%">{{(((i>1)?1:i)*this.cartData[i>0?i-1:i].product?.length)+j+1}}</td> -->
+            <td>{{ product.name + " " + product.unitWeight }}</td>
+            <!-- <td width="20%">{{ product.unitWeight }}</td> -->
+            <!-- <td width="20%">
+                <div>
+                  <select
+                    class="units"
+                    (change)="selectedUnit(product, $event.target.value)"
+                    [(ngModel)]="product.unitWeight"
+                  >
+                    <option
+                      value="{{ i.unit }}"
+                      *ngFor="let i of product.productUnits"
+                    >
+                      {{ i.unit }}
+                    </option>
+                  </select>
+                </div>
+              </td> -->
+            <td>
+              <div class="text-right txt-sm-left">
+                <!-- <button
+                    class="cart-btn btn-sm"
+                    (click)="decrement(product, product.quantity)"
+                  >
+                    -
+                  </button> -->
+                <input
+                  class="cart-btn1"
+                  (input)="onAddQty($event.target.value, product)"
+                  value="{{ product.quantity }}"
+                />
+                <!-- <button
+                    class="cart-btn btn-sm"
+                    (click)="increment(product, product.quantity)"
+                  >
+                    +</button
+                  > -->
+                <br />
+              </div>
+              <!-- <div
+                  class="text-right txt-sm-left"
+                  [hidden]="product.quantity !== 0"
+                > -->
+              <!-- <button
+                    class="add-btn btn btn-sm"
+                    (click)="increment(product, product.quantity)"
+                  >
+                    Add</button
+                  > -->
+              <!-- <br />
+                </div> -->
+            </td>
+          </tr>
+        </tbody>
+        <!-- extra line at the end of rows -->
+        <tr>
+          <td></td>
+          <td></td>
+          <!-- <td></td> -->
+          <!-- <td></td> -->
+        </tr>
+      </table>
+    </div>
+    <div class="row my-4" [hidden]="this.cartData.length < 1">
+      <div class="mx-auto">
+        <button
+          type="button"
+          data-toggle="modal"
+          data-target="#ConfirmPlaceOrder"
+          data-backdrop="static"
+          data-keyboard="false"
+          class="btn btn-md btn-primary mt-4"
+          (click)="onPlaceOrder()"
+        >
+          Place Order
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="ConfirmPlaceOrder"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="shopLabel"
+  aria-hidden="true"
+  *ngIf="this.showPlaceOrderConfirmation"
+>
+  <app-confirmation
+    [confirmationMessage]="confirmationMessage"
+    (confirm)="onConfirmPlaceOrder()"
+  ></app-confirmation>
+</div>
+
+<ng-template #empty>
+  <div [hidden]="!loading" class="cart-box">
+    <br /><br /><br />
+    <b>YOUR CART IS EMPTY</b>
+  </div>
+</ng-template>

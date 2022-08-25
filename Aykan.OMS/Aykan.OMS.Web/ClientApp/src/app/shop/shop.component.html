@@ -1,0 +1,27 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form [formGroup]="shopForm" (ngSubmit)="onEnterShop()">
+      <div class="modal-body">
+        <div class="row mb-3 px-3">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <img src="assets/img/Icon awesome-arrow-left.svg" />
+          </button>
+          <h5 class="dash-text">Enter Shop</h5>
+        </div>
+        <div class="user-input-wrp">
+          <br />
+          <select class="form-control" formControlName="shopId">
+            <option *ngFor="let option of shops" [value]="option.id">
+              {{ option.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="text-center mb-4 mt-3">
+        <button type="submit" class="btn btn-primary" data-dismiss="modal" [disabled]="!this.shopForm.valid" (click)="onEnterShop()">
+          Enter Shop Now 
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="inner-white-bg1">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 text-center mt-4 mb-4" [hidden]="isWholeSaler">
+        <div class="dash-text" data-backdrop="static" data-keyboard="false">
+          <a *ngIf="!isShopEntered" (click)="onClickShop()" data-toggle="modal" data-target="#shop">
+            <img src="assets/img/shop.svg" class="img-fluid dashboard" />
+            <br>
+            <label class="dashboard-label">Enter Shop</label></a>
+          <a *ngIf="isShopEntered" (click)="onClickShop()" data-toggle="modal" data-target="#ConfirmExitShop"> <img
+              src="assets/img/shop.svg" class="img-fluid dashboard" /> <br><label class="dashboard-label">Exit
+              Shop</label></a>
+
+        </div>
+      </div>
+      <div *ngIf="!isShopEntered" class="col-md-4 text-center my-4" typeof="button" [hidden]="isWholeSaler">
+        <a class="dash-text" [routerLink]="['/add-shop']"><img src="assets/img/add-new-shop.svg"
+            class="img-fluid dashboard" /><br />
+          <label class="dashboard-label">Add New Shop</label>
+        </a>
+      </div>
+      <div *ngIf="!isShopEntered" class="col-md-4 text-center my-4" typeof="button" [hidden]="isWholeSaler">
+        <a class="dash-text" [routerLink]="['/view-shop']"><img src="assets/img/view-shop.svg"
+            class="img-fluid dashboard" /><br />
+          <label class="dashboard-label">View Shop</label>
+        </a>
+      </div>
+      <div *ngIf="show" class="col-md-4 text-center my-4" typeof="button" [hidden]="isWholeSaler">
+        <a class="dash-text" [routerLink]="['/order/create-order']"><img src="assets/img/order.svg"
+            class="img-fluid dashboard" /><br />
+          <label class="dashboard-label">Create Order</label>
+        </a>
+      </div>
+      <div *ngIf="show" class="col-md-4 text-center mt-4 mb-4">
+        <a class="dash-text" [routerLink]="['/order/orderList']">
+          <img src="assets/img/views.svg" class="img-fluid dashboard" /><br />
+          <label class="dashboard-label">View Orders</label>
+        </a>
+      </div>
+    </div>
+
+    <div class="modal fade" id="shop" tabindex="-1" role="dialog" aria-labelledby="shopLabel" aria-hidden="true"
+      *ngIf="this.showModal">
+      <app-shop  (onEnterShopName)="onEnterShopName()"></app-shop>
+    </div>
+
+    <div class="modal fade" id="ConfirmExitShop" tabindex="-1" role="dialog" aria-labelledby="shopLabel"
+      aria-hidden="true" *ngIf="this.onShopExitConfirmation">
+      <app-confirmation [confirmationMessage]="confirmationMessage" (confirm)="onClickOfExitShop()"></app-confirmation>
+    </div>
+
+  </div>
+</div>

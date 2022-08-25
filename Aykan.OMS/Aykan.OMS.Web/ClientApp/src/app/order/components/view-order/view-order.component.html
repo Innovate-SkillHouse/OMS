@@ -1,0 +1,208 @@
+<div class="white-bg">
+  <div class="container">
+    <div class="dvdr mb-3"></div>
+    <div class="row mb-3 px-3">
+      <a
+        ><img
+          class="back"
+          src="assets/img/Icon awesome-arrow-left.svg"
+          (click)="backArrowClick(orderList[0]?.orderNo)"
+      /></a>
+      <h5 class="dash-text">Order View</h5>
+    </div>
+    <div class="mainBox mt-3">
+      <div class="space-50">
+        <span *ngIf="this.orderList?.length > 0">
+          Order No :
+          <strong>{{ orderList[0]?.orderNo }}</strong></span
+        ><br />
+        <span *ngIf="this.order?.length > 0"
+          >Shop Name : <strong>{{ order[0]?.shopKeeper.name }}</strong></span
+        >
+      </div>
+      <div class="space-50 text-right">
+        <span *ngIf="this.orderList?.length > 0"
+          >Status :
+          <strong>{{
+            getStatusOrder(orderList[0]?.isOrderCompleted)
+          }}</strong></span
+        ><br />
+        <span *ngIf="this.order?.length > 0"
+          >Address : <strong>{{ order[0]?.shopKeeper.address }}</strong></span
+        >
+      </div>
+    </div>
+    <div class="mt-3">
+      <label>Comments : </label><br />
+      <textarea
+        [hidden]="isWholeSaler"
+        class="textboxcss"
+        (input)="onChangeNoteValue($event.target.value)"
+        >{{ orderList[0]?.note }}</textarea
+      >
+      <label
+        style="width: 100%; display: block; text-align: justify; word-wrap: break-word;"
+        [hidden]="!isWholeSaler"
+      *ngFor="let item of EntireText">
+        {{ item }}
+    </label>
+      <div class="space-50"></div>
+    </div>
+    <br />
+    <div class="scroll-order-y">
+      <div class="table-responsive">
+        <table class="table ordertable">
+          <thead>
+            <tr>
+              <th style="width: 68px">Sl. No</th>
+              <th>Item</th>
+              <!-- <th>Unit</th> -->
+              <th class="text-right">Quantity</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let item of this.order; let i = index">
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.product.name + " " + item.unit }}</td>
+              <!-- <td width="20%">
+                {{ item.unit }}
+              </td> -->
+              <td align="right">
+                <div
+                  class="order-view"
+                  *ngIf="!this.orderList[0]?.isOrderCompleted"
+                >
+                  <!-- <button
+                    class="cart-btn btn-sm"
+                    (click)="decrement(item, item.quantity)"
+                  >
+                    -
+                  </button> -->
+                  <input
+                    class="cart-btn1"
+                    (input)="onAddQty($event.target.value, item)"
+                    value="{{ item.quantity }}"
+                  />
+                  <!-- <button
+                    class="cart-btn btn-sm"
+                    (click)="increment(item, item.quantity)"
+                  >
+                    +
+                  </button> -->
+                </div>
+                <!-- <div class="order-view"> -->
+                <!-- <button
+                    class="add-btn btn-sm"
+                    [hidden]="item.quantity !== 0"
+                    (click)="increment(item)"
+                  >
+                    Add
+                  </button> -->
+                <!-- </div> -->
+                <div
+                  class="text-right"
+                  *ngIf="this.orderList[0]?.isOrderCompleted"
+                >
+                  {{ item.quantity }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <!-- extra line at the end of rows -->
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- <td></td> -->
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row my-4">
+      <div class="mx-auto">
+        <!--<div [hidden]="!isWholeSaler" class="green-text">Total Price : {{ getTotalPrice() }}/-</div>-->
+        <button
+          [hidden]="isWholeSaler || orderList[0]?.isOrderCompleted == true"
+          [disabled]="this.isEdited && this.disablePlaceOrder"
+          data-toggle="modal"
+          data-target="#ConfirmUpdateOrder"
+          class="btn btn-md btn-primary mt-2"
+          (click)="onClickUpdate()"
+        >
+          Update Order
+        </button>
+        <button
+          type="button"
+          data-toggle="modal"
+          data-backdrop="static"
+          data-keyboard="false"
+          data-target="#ConfirmPlaceOrder"
+          class="btn btn-md btn-primary mt-2"
+          [hidden]="!isWholeSaler || orderList[0]?.isOrderCompleted === true"
+          (click)="onProcessOrder()"
+        >
+          Process Order</button
+        ><br />
+        <button
+          *ngIf="isWholeSaler"
+          type="button"
+          class="btn btn-md btn-danger mt-2"
+          [disabled]="!isWholeSaler || orderList[0]?.isOrderCompleted === true"
+          (click)="onClickOfCancelOrder(order[0]?.orderId)"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="{{
+            !orderList[0]?.isOrderCompleted === true
+              ? 'Cancel this Order'
+              : 'Cancel option is disabled'
+          }}"
+        >
+          Cancel Order
+        </button>
+        <br />
+        <button
+          type="button"
+          [disabled]="!isEdited"
+          class="btn btn-md btn-danger mt-2"
+          (click)="onClickOfPrintOrder(order[0]?.orderId)"
+          data-toggle="tooltip"
+          data-placement="top"
+        >
+          Print Order
+        </button>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="ConfirmPlaceOrder"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="shopLabel"
+      aria-hidden="true"
+      *ngIf="this.showProcessOrderConfirmation"
+    >
+      <app-confirmation
+        [confirmationMessage]="confirmationMessage"
+        (confirm)="
+          onClickOfProcessOrder(order[0]?.orderId, orderList[0]?.orderNo)
+        "
+      ></app-confirmation>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="ConfirmUpdateOrder"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="orderLabel"
+  aria-hidden="true"
+  *ngIf="this.onUpdateOrderConfirmation"
+>
+  <app-confirmation
+    [confirmationMessage]="confirmationMessage"
+    (confirm)="onUpdateOrder(orderList[0]?.orderNo)"
+  >
+  </app-confirmation>
+</div>

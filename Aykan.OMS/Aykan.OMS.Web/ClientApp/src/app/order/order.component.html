@@ -1,0 +1,153 @@
+<div class="white-bg">
+  <div class="container">
+    <div class="dvdr mb-3"></div>
+
+    <div class="row mb-3 px-3">
+      <a [routerLink]="['/dashboard']"><img src="assets/img/Icon awesome-arrow-left.svg" /></a>
+      <h5 class="dash-text">Order List</h5>
+    </div>
+    <!-- if the user is salesman -->
+    <div [hidden]="isWholeSaler">
+
+      <div class="datepicker btn btn-sm mr-md-2 mb-2">
+        <input class="datepicker-ip" id="datetimepicker" [(ngModel)]="selectedOrderDate" value="{{selectedOrderDate}}"
+          type="date" (change)="onFilterByDate()">&nbsp;<b (click)="onClose()">✖</b>
+      </div>
+      <div class="mainBox mt-3">
+        <div class="space-50">
+          <span><b>Shop Name :</b> {{shopName }}</span>
+        </div>
+        <div class="space-50 text-right">
+          <span><b>Address :</b> {{address }}</span>
+        </div>
+      </div>
+
+      <div class="scroll-y" *ngIf="(this.orderList?.length >=1) else empty">
+        <div class="box1 mt-3 order-list" *ngFor="let item of this.orderList"
+          [ngClass]="{'selected':item.orderNo === orderNo}">
+          <div class="space-60" (click)="onClickOrderDetails(item)">
+            <span class="f-14">Order No :&nbsp;</span>
+            <span class="f-14 order-link" [class.active]="item.orderNo === orderNo"><a
+                (click)="onClickOrderDetails(item)">{{ item.orderNo }}</a></span><br />
+            <span class="f-14">
+              Order Date :
+              {{ item.orderCompletedOn | date: "dd-MMM-y" }} </span>
+            <br />
+            <!-- <span class="f-16">Price : Rs. {{ getTotalPrice(item) }}/-</span> -->
+          </div>
+          <div class="space-40 text-right">
+            <span class="f-14">Item Count : <strong>{{ getTotalItemCount(item) }}</strong></span><br /><br />
+          </div>
+        </div>
+      </div>
+      <ul class="pagination">
+        <li (click)="previousPage()" *ngIf="currentPageIndex > 1 && totalPageCount>3">
+          <a>❮❮ Previous</a>
+        </li>
+        <li>
+          <a *ngFor="let count of maxPageCount" [class.active]="count + incrementer === currentPageIndex"
+            (click)="onChangePage(count + incrementer, this.isSortAscending)">{{ count + incrementer }}</a>
+        </li>
+        <li (click)="nextPage()" *ngIf="currentPageIndex < this.totalPageCount&& totalPageCount>3">
+          <a>Next ❯❯</a>
+        </li>
+      </ul>  
+    </div>
+    <ng-template #empty>
+      <br><br><br><br><br>
+      <div [hidden]="!loading" style="width:100%; text-align:center;">
+        <b [hidden]="!selectedOrderDate">NO RECORDS FOUND</b><br />
+        <label> <b>YOUR ORDER IS EMPTY</b></label>
+      </div>
+    </ng-template>
+    <!-- if the user is wholesaler -->
+    <div [hidden]="!isWholeSaler">
+      <div class="dvdr mb-3"></div>
+      <!-- <div style="width: 100%; height: 5%"> -->
+      <!-- <input class="search-id" [(ngModel)]="searchByOrderNo" value="searchByOrderNo" (input)="onSearchByOrderId()"
+          type="text" placeholder="Search Order" /> -->
+      <!-- </div> -->
+      <br />
+      <div class="date-select btn btn-sm mr-md-2 mb-2">
+        <input class="datepicker-ip" id="datetimepicker" [(ngModel)]="selectedOrderDate" value="{{selectedOrderDate}}"
+          type="date" (change)="onFilterByDate()">&nbsp;<b (click)="onClose()">✖</b>
+      </div>
+      <select class="shopname btn btn-sm mr-md-2 mb-2" (change)="onFilterByShopkeeperId()"
+        [(ngModel)]="selectedShopkeeperId">
+        <option id="option" [ngValue]=0 selected>Select Shop Name</option>
+        <option id="option" *ngFor="let item of shops" [ngValue]="item.id">{{item.name}}</option>
+      </select>
+      <span>
+        <select class="shopname btn btn-sm mr-md-2 mb-2" (change)="onFilterByIsOrderCompleted()"
+          [(ngModel)]="selectedStatus">
+          <option id="option" value="" selected>Select Status</option>
+          <option id="option" value="true">Processed</option>
+          <option id="option" value="false">Unprocessed</option>
+        </select>
+      </span>
+      <br>
+      <div class="table-responsive">
+        <table border="1" id="order" class="table">
+          <thead>
+            <tr>
+              <th style="padding-left: 50px;padding-right:50px">
+                <div style="width:70px;">
+                  Order No
+                </div>
+              </th>
+              <th style="padding-left: 30px;padding-right:30px" (click)="onStartOrderSort($event)">
+                <div style="width:100px;">Order Date&nbsp;&nbsp;&nbsp;
+                  <img src="assets/img/sort-descending.svg" *ngIf="isSortAscending" />
+                  <img src="assets/img/sort-ascending.svg" *ngIf="!isSortAscending" />
+                </div>
+              </th>
+              <th style="padding-left: 30px;padding-right:30px;">
+                <div style="width: 100px;">Shop Name</div>
+              </th>
+              <th style="padding-left: 30px;padding-right:30px;">
+                <div style="width: 100px;">Item Count</div>
+              </th>
+              <!-- <th>Total</th> -->
+              <th style="padding-left: 30px;padding-right:30px;">
+                <div style="width: 40px;">Status</div>
+              </th>
+              <th style="padding-left: 30px;padding-right:30px;text-align: center;">
+                <div style="width: 40px;">View</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let item of this.orderList">
+            <tr class="selected-row" [ngClass]="{'selectedRow':item.orderNo === orderNo}"
+              (click)="onClickOrderDetails(item)">
+              <td>{{item.orderNo}}</td>
+              <td>{{item.orderCompletedOn | date : 'dd-MMM-y'}}</td>
+              <td>{{item.orderDetails[0]?.shopKeeper?.name}}</td>
+              <td>{{getTotalItemCount(item)}}</td>
+              <!-- <td><strong>{{getTotalPrice(item)}}</strong></td> -->
+              <td>{{isOrderCompleted(item)}}</td>
+              <td align="center">
+                <img src="assets/img/icon-visible.svg" (click)="onClickOrderDetails(item)">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br><br>
+      <ul class="pagination">
+        <li (click)="previousPage()" *ngIf="currentPageIndex > 1 && totalPageCount>3">
+          <a>❮❮ Previous</a>
+        </li>
+        <li>
+          <a *ngFor="let count of maxPageCount" [class.active]="count + incrementer === currentPageIndex"
+            (click)="onChangePage(count + incrementer, this.isSortAscending, this.selectedShopkeeperId, this.selectedStatus)">{{
+            count + incrementer }}</a>
+        </li>
+        <li (click)="nextPage()" *ngIf="currentPageIndex < totalPageCount&& totalPageCount>3">
+          <a>Next ❯❯</a>
+        </li>
+      </ul>
+    </div>
+    <br /><br />
+    <div [hidden]="!isWholeSaler" class="dvdr mb-3"></div>
+  </div>
+</div>
