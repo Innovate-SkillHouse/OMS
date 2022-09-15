@@ -37,3 +37,6 @@ export class ShopURLConstants {
   static GET_SHOP_BY_ID = environment.apiUrl + "api/v1/Shop/GetShopById";
   static UPDATE_SHOP = environment.apiUrl + "api/v1/Shop/UpdateShop";
 }
+export class UserUrlConstant{
+  static GET_ALL_USERS=environment.apiUrl+"api/v1/user/GetAllUser";
+}

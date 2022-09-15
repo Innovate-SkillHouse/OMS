@@ -48,7 +48,8 @@ namespace Aykan.OMS.Web.Controllers
             return Ok();
         }
 
-        
+        [HttpDelete]
+
         [Route("DeleteShop")]
         public async Task<IActionResult> DeleteShop(int id)
         {

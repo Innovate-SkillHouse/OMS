@@ -9,8 +9,9 @@ import { SharedModule } from "../app/shared/shared.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from "ngx-ui-loader";
+import { UserComponent } from './user/user.component';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,  UserComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,

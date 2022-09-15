@@ -1,7 +1,9 @@
 ﻿using Aykan.OMS.Business;
 using Aykan.OMS.Common.Model;
+using Aykan.OMS.Repository.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Aykan.OMS.Web.Controllers
@@ -41,5 +43,19 @@ namespace Aykan.OMS.Web.Controllers
             var result = _userBusiness.ChangePassword(changePasswordModel, currentUserId);
             return Ok(result);
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetAllUser")]
+       
+        public List<User> GetAllUser()
+        {
+            var users = _userBusiness.GetAllUser();
+            return users;
+
+
+        }
+
+
     }
 }

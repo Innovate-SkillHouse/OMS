@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "./core/guards/auth.guard";
 import { RoleGuard } from "./core/guards/role.guard";
+import { UserComponent } from "./user/user.component";
 const appRoutes: Routes = [
   {
     path: "login",
@@ -37,6 +38,15 @@ const appRoutes: Routes = [
     path: "add-shop",
     loadChildren: () =>
       import("./add-shop/add-shop.module").then((m) => m.AddShopModule),
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      routePermissionCode: "add-shop",
+    },
+  },
+  {
+    path:"user",
+    loadChildren: () =>
+      import("./user/user.module").then((m) => m.UserModules),
     canActivate: [AuthGuard, RoleGuard],
     data: {
       routePermissionCode: "add-shop",

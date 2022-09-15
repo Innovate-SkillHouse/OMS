@@ -25,8 +25,14 @@
           <label class="dashboard-label">View Shop</label>
         </a>
       </div>
+      <div id="user" *ngIf="!isShopEntered" class="col-md-4 text-center my-4" typeof="button" [hidden]="isWholeSaler">
+        <a class="dash-text" [routerLink]="['/user']"><img src="assets/img/\V.png"
+            class="img-fluid dashboard" /><br />
+          <label class="dashboard-label">Users</label>
+        </a>
+      </div>
       <div *ngIf="show" class="col-md-4 text-center my-4" typeof="button" [hidden]="isWholeSaler">
-        <a class="dash-text" [routerLink]="['/order/create-order']"><img src="assets/img/order.svg"
+        <a class="dash-text" [routerLink]="['/order/create-order']"><img  src="assets/img/order.svg"
             class="img-fluid dashboard" /><br />
           <label class="dashboard-label">Create Order</label>
         </a>

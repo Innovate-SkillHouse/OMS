@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UDMGlobal.Hirchive.Organization.Common.Helpers;
 using AutoMapper;
+using System.Collections.Generic;
 
 namespace Aykan.OMS.Business
 {
@@ -38,10 +39,12 @@ namespace Aykan.OMS.Business
             using (var scope = unitOfWork.BeginTransaction())
             {
                     User user = (await this.repository.GetByAsync(x => x.UserName == loginModel.UserName,x=>x.UserRoles)).FirstOrDefault();
-                   
-                    if (user == null )
-                        return null;
                 var a = Cryptography.ComputeSHA256Hash(loginModel.Password, user.CreatedOn.ToString(CultureInfo.InvariantCulture));
+                if (user == null) {
+                    return null;
+                }
+                       
+                if(user.Password == Cryptography.ComputeSHA256Hash(loginModel.Password, user.CreatedOn.ToString(CultureInfo.InvariantCulture))){                                  
                     AuthenticationModel authenticationModel = new AuthenticationModel()
                     {
                         UserId = user.Id,
@@ -49,9 +52,10 @@ namespace Aykan.OMS.Business
                         RoleId = user.UserRoles.FirstOrDefault().RoleId
 
                     };
-
-                    return authenticationModel;              
-            }
+                    return authenticationModel;
+                }
+                return null;                                                                    
+           }
         }
 
         public void PopulateJwtTokenAsync(AuthenticationModel authModel)
@@ -124,6 +128,13 @@ namespace Aykan.OMS.Business
             this.repository.Update(userDetails);
             this.unitOfWork.Save();
             return true;
+        }
+
+        public  List<User>  GetAllUser()
+        {
+            var users = repository.GetAll().ToList();
+            return users;
+            
         }
 
     }
